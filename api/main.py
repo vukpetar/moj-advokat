@@ -18,8 +18,10 @@ from models.user.auth import (
 )
 from models.user.auth import (
     get_current_active_user,
-    pwd_context,
-    oauth2_scheme
+)
+from models.law import (
+    crud as lawCrud,
+    schemas as lawSchemas
 )
 from database import get_db
 
@@ -53,7 +55,7 @@ def create_user(user: userSchemas.UserCreate, db: Session = Depends(get_db)):
     return userCrud.create_user(db=db, user=user)
 
 @app.get("/users/", response_model=list[userSchemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
     users = userCrud.get_users(db, skip=skip, limit=limit)
     return users
@@ -70,6 +72,29 @@ def read_user(
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
+
+@app.post("/laws/", response_model=lawSchemas.Law)
+def create_law(law: lawSchemas.LawCreate, db: Session = Depends(get_db)):
+
+    return lawCrud.create_law(db=db, law=law)
+
+@app.get("/laws/", response_model=list[lawSchemas.Law])
+def read_laws(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+
+    laws = lawCrud.get_laws(db, skip=skip, limit=limit)
+    return laws
+
+@app.get("/laws/{law_id}", response_model=lawSchemas.Law)
+def read_law(
+    law_id: int,
+    db: Session = Depends(get_db),
+    current_user: lawSchemas.Law = Depends(get_current_active_user)
+):
+    
+    db_law = lawCrud.get_law(db, law_id=law_id)
+    if db_law is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_law
 
 # To run locally
 if __name__ == '__main__':
