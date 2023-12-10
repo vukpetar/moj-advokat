@@ -8,7 +8,11 @@ class User(Base):
     first_name = Column(String)
     last_name = Column(String)
     email = Column(String)
-    phonenumber = Column(String)
+    phone_number = Column(String, server_default=None)
+    is_admin = Column(Boolean, server_default="false")
+    daily_limit = Column(Integer, server_default="2")
+    is_activated = Column(Boolean, server_default="false")
+    activation_code = Column(String, server_default=None)
     hashed_password = Column(String)
     disabled = Column(Boolean)
 

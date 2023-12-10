@@ -10,7 +10,7 @@ class Token(BaseModel):
 class UserBase(BaseModel):
     first_name: str
     last_name: str
-    phonenumber: str
+    phone_number: str
     email: Optional[str] = None
 
 class UserCreate(UserBase):
@@ -18,11 +18,11 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    first_name: str
-    last_name: str
-    email: str
-    phonenumber: str
     disabled: Optional[bool] = None
+    is_admin: Optional[bool]
+    daily_limit: Optional[int]
+    is_activated: bool
+    activation_code: str
 
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
