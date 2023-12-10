@@ -8,6 +8,7 @@ from models.law import (
 from models.user.auth import (
     get_current_active_user,
 )
+from models.user.schemas import User
 from database import get_db
 
 router = APIRouter(
@@ -33,7 +34,7 @@ def read_laws(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 def read_law(
     law_id: int,
     db: Session = Depends(get_db),
-    current_user: lawSchemas.Law = Depends(get_current_active_user)
+    current_user: User = Depends(get_current_active_user)
 ):
     
     db_law = lawCrud.get_law(db, law_id=law_id)
