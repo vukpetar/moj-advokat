@@ -12,6 +12,7 @@ import models.law.models as lawModel
 import models.article.models as articleModel
 import models.item_points.models as itemPointModel
 import models.item.models as itemModel
+import models.question.models as questionModel
 import os,sys
 from dotenv import load_dotenv
 
