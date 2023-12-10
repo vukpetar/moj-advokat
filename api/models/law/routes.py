@@ -39,5 +39,5 @@ def read_law(
     
     db_law = lawCrud.get_law(db, law_id=law_id)
     if db_law is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Law not found")
     return db_law

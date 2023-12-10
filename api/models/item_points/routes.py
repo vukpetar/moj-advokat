@@ -39,5 +39,5 @@ def read_item(
     
     db_item = ItemPointCrud.get_item_point(db, item_point_id=item_point_id)
     if db_item is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="ItemPoint not found")
     return db_item

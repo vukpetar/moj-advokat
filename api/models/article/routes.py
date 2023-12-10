@@ -39,5 +39,5 @@ def read_article(
     
     db_article = articleCrud.get_article(db, article_id=article_id)
     if db_article is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Article not found")
     return db_article

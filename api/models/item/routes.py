@@ -39,5 +39,5 @@ def read_item(
     
     db_item = itemCrud.get_item(db, item_id=item_id)
     if db_item is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Item not found")
     return db_item
