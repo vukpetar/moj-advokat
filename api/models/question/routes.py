@@ -43,5 +43,17 @@ def read_question(
     
     db_question = questionCrud.get_question(db, question_id=question_id)
     if db_question is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Question not found")
+    return db_question
+
+
+@router.get("/{question_id}/items", response_model=questionSchemas.QuestionItems)
+def read_question(
+    question_id: int,
+    db: Session = Depends(get_db)
+):
+    
+    db_question = questionCrud.get_question_item(db, question_id=question_id)
+    if db_question is None:
+        raise HTTPException(status_code=404, detail="Question not found")
     return db_question

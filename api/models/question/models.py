@@ -17,5 +17,17 @@ class Question(Base):
     text = Column(String)
     is_public = Column(Boolean, default=0)
 
+    user = relationship("User")
+    items = relationship("QuestionItems", back_populates='question')
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+class QuestionItems(Base):
+    __tablename__ = 'question_items'
+    id  = Column(Integer, primary_key=True, index=True)
+    question_id = Column(Integer, ForeignKey('questions.id'))
+    item_id = Column(Integer, ForeignKey('items.id'))
+
+    question = relationship("Question")
+    item = relationship("Item")

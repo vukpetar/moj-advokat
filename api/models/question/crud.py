@@ -30,3 +30,7 @@ def create_question(
     db.commit()
     db.refresh(db_question)
     return db_question
+
+def get_question_item(db: Session, question_id: int):
+
+    return db.query(models.QuestionItems).filter(models.QuestionItems.question_id == question_id).first()
