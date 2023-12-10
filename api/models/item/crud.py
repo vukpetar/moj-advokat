@@ -17,8 +17,11 @@ def get_items(db: Session, skip: int = 0, limit: int = 10):
 def create_item(db: Session, item: schemas.Item):
     
     db_item = models.Item(
-        article_id = item.article_id,
-        text = item.text
+        law_id = item.law_id,
+        item_point_ids = item.item_point_ids,
+        internal_links = item.internal_links,
+        text = item.text,
+        cohere_text = item.cohere_text,
     )
     db.add(db_item)
     db.commit()
