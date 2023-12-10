@@ -20,7 +20,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=questionSchemas.Question)
-def create_question(
+async def create_question(
     question: questionSchemas.QuestionCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -29,13 +29,13 @@ def create_question(
     return questionCrud.create_question(db=db, question=question, current_user=current_user)
 
 @router.get("/", response_model=list[questionSchemas.Question])
-def read_questions(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def read_questions(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
     questions = questionCrud.get_questions(db, skip=skip, limit=limit)
     return questions
 
 @router.get("/{question_id}", response_model=questionSchemas.Question)
-def read_question(
+async def read_question(
     question_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -48,7 +48,7 @@ def read_question(
 
 
 @router.get("/{question_id}/items", response_model=questionSchemas.QuestionItems)
-def read_question(
+async def read_question(
     question_id: int,
     db: Session = Depends(get_db)
 ):

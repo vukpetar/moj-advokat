@@ -1,3 +1,4 @@
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from models.question import (
@@ -21,14 +22,19 @@ def create_question(
         current_user: User
     ):
     
-
+    if current_user.daily_limit == 0:
+        raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, detail="You have exceeded the daily limit.")
+    
+    current_user.daily_limit -= 1
     db_question = models.Question(
         user_id = current_user.id,
         text = question.text
     )
     db.add(db_question)
+    db.add(current_user)
     db.commit()
     db.refresh(db_question)
+    db.refresh(current_user)
     return db_question
 
 def get_question_item(db: Session, question_id: int):

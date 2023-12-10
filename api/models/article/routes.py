@@ -20,18 +20,18 @@ router = APIRouter(
 
 
 @router.post("/", response_model=articleSchemas.Article)
-def create_article(article: articleSchemas.ArticleCreate, db: Session = Depends(get_db)):
+async def create_article(article: articleSchemas.ArticleCreate, db: Session = Depends(get_db)):
 
     return articleCrud.create_article(db=db, article=article)
 
 @router.get("/", response_model=list[articleSchemas.Article])
-def read_articles(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def read_articles(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
     articles = articleCrud.get_articles(db, skip=skip, limit=limit)
     return articles
 
 @router.get("/{article_id}", response_model=articleSchemas.Article)
-def read_article(
+async def read_article(
     article_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)

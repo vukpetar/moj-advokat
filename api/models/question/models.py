@@ -2,6 +2,7 @@ from sqlalchemy import (
     Column,
     DateTime,
     Integer,
+    Float,
     String,
     Boolean,
     ForeignKey
@@ -15,7 +16,7 @@ class Question(Base):
     id  = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     text = Column(String)
-    is_public = Column(Boolean, default=0)
+    is_public = Column(Boolean, server_default="false")
 
     user = relationship("User")
     items = relationship("QuestionItems", back_populates='question')
@@ -28,6 +29,7 @@ class QuestionItems(Base):
     id  = Column(Integer, primary_key=True, index=True)
     question_id = Column(Integer, ForeignKey('questions.id'))
     item_id = Column(Integer, ForeignKey('items.id'))
+    distance = Column(Float, server_default=None)
 
     question = relationship("Question")
     item = relationship("Item")

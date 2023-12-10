@@ -20,18 +20,18 @@ router = APIRouter(
 
 
 @router.post("/", response_model=lawSchemas.Law)
-def create_law(law: lawSchemas.LawCreate, db: Session = Depends(get_db)):
+async def create_law(law: lawSchemas.LawCreate, db: Session = Depends(get_db)):
 
     return lawCrud.create_law(db=db, law=law)
 
 @router.get("/", response_model=list[lawSchemas.Law])
-def read_laws(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def read_laws(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
     laws = lawCrud.get_laws(db, skip=skip, limit=limit)
     return laws
 
 @router.get("/{law_id}", response_model=lawSchemas.Law)
-def read_law(
+async def read_law(
     law_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)

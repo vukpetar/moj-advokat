@@ -23,6 +23,7 @@ class QuestionItems(BaseModel):
     id: int
     question_id: int
     item_id: int
+    distance: Optional[float]
     question: Question
     item: Item
 
