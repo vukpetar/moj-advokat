@@ -10,6 +10,7 @@ from database import Base
 import models.user.models as userModel
 import models.law.models as lawModel
 import models.article.models as articleModel
+import models.item_points.models as itemPointModel
 import models.item.models as itemModel
 import os,sys
 from dotenv import load_dotenv

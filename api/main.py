@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 import models.user.routes as userRoutes
 import models.law.routes as lawRoutes
 import models.article.routes as articleRoutes
+import models.item_points.routes as itemPointRoutes
 import models.item.routes as itemRoutes
 from models.user import (
     schemas as userSchemas
@@ -25,6 +26,7 @@ app = FastAPI()
 app.include_router(userRoutes.router)
 app.include_router(lawRoutes.router)
 app.include_router(articleRoutes.router)
+app.include_router(itemPointRoutes.router)
 app.include_router(itemRoutes.router)
 
 @app.post("/token", response_model=userSchemas.Token)
