@@ -22,7 +22,8 @@ class User(UserBase):
     is_admin: Optional[bool]
     daily_limit: Optional[int]
     is_activated: bool
-    activation_code: str
+    activation_code: Optional[str]
+    activation_otp_count: int = 0
 
     created_at: Optional[datetime]
     updated_at: Optional[datetime]

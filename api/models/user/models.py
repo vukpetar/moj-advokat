@@ -12,6 +12,7 @@ class User(Base):
     is_admin = Column(Boolean, server_default="false")
     daily_limit = Column(Integer, server_default="2")
     is_activated = Column(Boolean, server_default="false")
+    activation_otp_count = Column(Integer, server_default="0")
     activation_code = Column(String, server_default=None)
     hashed_password = Column(String)
     disabled = Column(Boolean)
