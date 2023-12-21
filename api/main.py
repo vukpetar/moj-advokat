@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 import models.user.routes as userRoutes
 import models.law.routes as lawRoutes
 import models.article.routes as articleRoutes
-import models.item_points.routes as itemPointRoutes
 import models.item.routes as itemRoutes
+import models.unit.routes as unitRoutes
 import models.question.routes as questionRoutes
 from models.user import (
     schemas as userSchemas
@@ -27,9 +27,9 @@ app = FastAPI()
 app.include_router(userRoutes.router)
 app.include_router(lawRoutes.router)
 app.include_router(articleRoutes.router)
-app.include_router(itemPointRoutes.router)
 app.include_router(itemRoutes.router)
 app.include_router(questionRoutes.router)
+app.include_router(unitRoutes.router)
 
 @app.post("/token", response_model=userSchemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),  db: Session = Depends(get_db)):

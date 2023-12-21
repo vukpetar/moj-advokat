@@ -18,8 +18,8 @@ def create_article(db: Session, article: schemas.Article):
     
     db_article = models.Article(
         law_id = article.law_id,
-        article_group = article.article_group,
         article_title = article.article_title,
+        article_text = article.article_text,
     )
     db.add(db_article)
     db.commit()
