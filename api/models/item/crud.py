@@ -18,10 +18,10 @@ def create_item(db: Session, item: schemas.Item):
     
     db_item = models.Item(
         law_id = item.law_id,
-        item_point_ids = item.item_point_ids,
-        internal_links = item.internal_links,
-        text = item.text,
-        cohere_text = item.cohere_text,
+        article_id = item.article_id,
+        start = item.start,
+        end = item.end,
+        reference = item.reference,
     )
     db.add(db_item)
     db.commit()

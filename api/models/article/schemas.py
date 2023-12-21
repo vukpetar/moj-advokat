@@ -6,7 +6,7 @@ from datetime import datetime
 class ArticleCreate(BaseModel):
     law_id: int
     article_title: str
-    article_group: Optional[str]
+    article_text: str
 
 class Article(ArticleCreate):
     id: int

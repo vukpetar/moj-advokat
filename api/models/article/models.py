@@ -14,7 +14,7 @@ class Article(Base):
     id  = Column(Integer, primary_key=True, index=True)
     law_id = Column(Integer, ForeignKey('laws.id'))
     article_title = Column(String)
-    article_group = Column(String)
+    article_text = Column(String)
 
     law = relationship("Law")
 

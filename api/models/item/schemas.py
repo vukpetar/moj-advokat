@@ -5,10 +5,10 @@ from datetime import datetime
 
 class ItemCreate(BaseModel):
     law_id: int
-    item_point_ids: List[int]
-    internal_links: List[Dict]
-    text: str
-    cohere_text: str
+    article_id: int
+    start: int
+    end: int
+    reference: List[Dict]
 
 class Item(ItemCreate):
     id: int

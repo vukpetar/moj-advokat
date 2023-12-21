@@ -1,19 +1,21 @@
 from sqlalchemy import (
-    ForeignKey,
     Column,
     DateTime,
     Integer,
-    String
+    String,
+    ForeignKey
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
 
-class ItemPoint(Base):
-    __tablename__ = 'item_points'
+class Unit(Base):
+    __tablename__ = 'units'
     id  = Column(Integer, primary_key=True, index=True)
     article_id = Column(Integer, ForeignKey('articles.id'))
-    text = Column(String)
+    start = Column(Integer)
+    end = Column(Integer)
+    type = Column(String)
 
     article = relationship("Article")
 

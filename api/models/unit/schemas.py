@@ -1,13 +1,15 @@
 # build a schema using pydantic
-from typing import Optional
+from typing import Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
 
-class ItemPointCreate(BaseModel):
+class UnitCreate(BaseModel):
     article_id: int
-    text: str
+    start: int
+    end: int
+    type: str
 
-class ItemPoint(ItemPointCreate):
+class Unit(UnitCreate):
     id: int
 
     created_at: Optional[datetime]
