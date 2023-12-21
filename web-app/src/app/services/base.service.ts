@@ -1,0 +1,37 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
+
+
+type valueType = string | number | boolean;
+export type ParamType = { [key: string]: valueType | valueType[] } | undefined;
+export declare type Nullish = null | undefined;
+
+export class ApiData<T> {
+  data: T;
+  totalCount?: number;
+
+  constructor(data: T) {
+    this.data = data;
+  }
+}
+
+export abstract class BaseService<T extends object> {
+
+  constructor(
+    protected url: string,
+    protected http: HttpClient,
+  ) {
+    this.url = environment.apiURL + url;
+  }
+
+
+  all(data?: ParamType): Observable<ApiData<T>[]> {
+    return this.http
+      .get<ApiData<T>[]>(this.url, {
+        params: data,
+      });
+  }
+
+}
