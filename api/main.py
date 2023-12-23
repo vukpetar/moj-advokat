@@ -19,7 +19,8 @@ from models.user import (
 )
 from models.user.auth import (
     authenticate_user,
-    create_access_token
+    create_access_token,
+    get_current_active_user
 )
 from database import get_db
 
@@ -53,9 +54,27 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"}
         )
+    elif not user.is_activated:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User is not activated",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
     access_token_expires = timedelta(minutes=int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"]))
     access_token = create_access_token(
         data={"sub": str(user.id)},
+        expires_delta=access_token_expires
+    )
+    result =  userSchemas.Token(access_token = access_token, token_type = "bearer")
+
+    return result
+
+@app.post("/refresh-token", response_model=userSchemas.Token)
+async def refresh_token(current_user: userSchemas.User = Depends(get_current_active_user)):
+
+    access_token_expires = timedelta(minutes=int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"]))
+    access_token = create_access_token(
+        data={"sub": str(current_user.id)},
         expires_delta=access_token_expires
     )
 

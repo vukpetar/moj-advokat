@@ -1,10 +1,13 @@
+from datetime import timedelta
 import os
+from typing import Annotated
 from dotenv import load_dotenv
 from random import randint
 
 from fastapi import (
     APIRouter,
     Depends,
+    Form,
     HTTPException,
     status
 )
@@ -15,6 +18,7 @@ from models.user import (
     schemas as userSchemas
 )
 from models.user.auth import (
+    create_access_token,
     get_current_active_user,
 )
 from database import get_db
@@ -55,10 +59,10 @@ async def read_user(
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-@router.post("/activate", response_model=userSchemas.User)
+@router.post("/activate", response_model=userSchemas.Token)
 async def activate_user(
-    email: str,
-    activation_code: str,
+    email: Annotated[str, Form()],
+    activation_code: Annotated[str, Form()],
     db: Session = Depends(get_db)
 ):
     
@@ -76,10 +80,17 @@ async def activate_user(
         db.commit()
         db.refresh(db_user)
 
-    return db_user
+    access_token_expires = timedelta(minutes=int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"]))
+    access_token = create_access_token(
+        data={"sub": str(db_user.id)},
+        expires_delta=access_token_expires
+    )
+    result = userSchemas.Token(access_token = access_token, token_type = "bearer")
+    
+    return result
 
 @router.post("/resend_activation_code")
-async def activate_user(
+async def resend_activation_code(
     email: str,
     db: Session = Depends(get_db)
 ):

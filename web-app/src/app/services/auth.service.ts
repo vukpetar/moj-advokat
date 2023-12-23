@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { BaseService } from './base.service';
 import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, take, tap } from 'rxjs';
 import { StorageService } from './storage.service';
 
 
@@ -26,6 +26,17 @@ export class AuthService extends BaseService<User> implements OnDestroy {
     private storageService: StorageService
   ) {
     super('/users', httpClient);
+    this.refresh_token().subscribe({
+      next: _ => {},
+      error: _ => {
+        this.storageService.removeItem("accessToken");
+      }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this._authSub$.next(false);
+    this._authSub$.complete();
   }
 
   public login(email: string | null, password: string | null): Observable<any> {
@@ -44,9 +55,27 @@ export class AuthService extends BaseService<User> implements OnDestroy {
     }));
   }
 
-  public ngOnDestroy(): void {
-    this._authSub$.next(false);
-    this._authSub$.complete();
+  public activate(email: string, activation_code: string): Observable<any> {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("activation_code", activation_code);
+
+    return this.httpClient.post<Token>(`${environment.apiURL}/users/activate`, formData).pipe(
+      tap(res => {
+        this._authSub$.next(true);
+        this.storageService.setItem("accessToken", res.access_token);
+      })
+    );
+  }
+
+  public refresh_token() {
+    return this.httpClient.post<Token>(`${environment.apiURL}/refresh-token`, {}).pipe(
+      tap(res => {
+        this._authSub$.next(true);
+        this.storageService.setItem("accessToken", res.access_token);
+      }),
+      take(1)
+    );
   }
 
 }

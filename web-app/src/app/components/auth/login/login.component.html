@@ -6,13 +6,13 @@
         Vaša email adresa ili lozinka nisu ispravni.
       </mat-error>
       <mat-form-field>
-        <input matInput placeholder="Email" [(ngModel)]="username" name="username" required>
+        <input matInput placeholder="Email" [(ngModel)]="username" name="username" required email>
         <mat-error>
           Molimo Vas unesite validnu email adresu
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+        <input matInput type="password" placeholder="Lozinka" [(ngModel)]="password" name="password" required>
         <mat-error>
           Molimo Vas unesite validnu lozinku
         </mat-error>

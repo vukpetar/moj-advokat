@@ -9,6 +9,7 @@ import { Subject, filter, take, takeUntil } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -62,7 +63,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginValid = true;
         this._router.navigateByUrl('/');
       },
-      error: _ => this.loginValid = false
+      error: (e: HttpErrorResponse) => {
+        if (e.status == 401) {
+          this.loginValid = false
+        } else if (e.status == 403) {
+          this._router.navigate(["/aktiviraj-nalog"], { queryParams: {email: this.username}});
+        }
+        
+      }
     });
   }
 }

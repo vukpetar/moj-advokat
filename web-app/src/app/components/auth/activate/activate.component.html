@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-content>
+    <form #activateForm="ngForm" (ngSubmit)="onSubmit(activateForm)">
+      <h2>Aktivacija</h2>
+      <mat-error *ngIf="!activateValid">
+        Došlo je do greške, kontaktirajte korisničku podršku.
+      </mat-error>
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" required email>
+        <mat-error>
+          Molimo Vas unesite validnu email adresu
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Aktivacioni kod" [(ngModel)]="activation_code" name="activation_code" required>
+        <mat-error>
+          Molimo Vas unesite validnu lozinku
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!activateForm.form.valid">Aktiviraj nalog</button>
+    </form>
+  </mat-card-content>
+</mat-card>
