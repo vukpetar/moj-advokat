@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
@@ -32,6 +31,17 @@ export abstract class BaseService<T extends object> {
       .get<ApiData<T>[]>(this.url, {
         params: data,
       });
+  }
+
+  get(id: number, data?: ParamType): Observable<ApiData<T>> {
+    return this.http
+      .get<ApiData<T>>(`${this.url}/${id}`, {
+        params: data,
+      });
+  }
+
+  save(data: any): Observable<T> {
+    return this.http.post<T>(this.url, data);
   }
 
 }

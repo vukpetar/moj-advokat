@@ -9,8 +9,8 @@ class Token(BaseModel):
 class UserBase(BaseModel):
     first_name: str
     last_name: str
-    phone_number: str
-    email: Optional[str] = None
+    phone_number: Optional[str]
+    email: str
 
 class UserCreate(UserBase):
     password: str

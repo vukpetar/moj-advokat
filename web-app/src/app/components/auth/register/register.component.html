@@ -1,1 +1,35 @@
-<p>register works!</p>
+<mat-card>
+    <mat-card-content>
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+            <h2>Registracija</h2>
+            <mat-error *ngIf="!registerValid">
+                Email adresa već postoji u bazi.
+            </mat-error>
+            <mat-form-field>
+                <input matInput placeholder="Ime" [(ngModel)]="first_name" name="first_name" required>
+                <mat-error>
+                    Molimo Vas unesite vaše ime
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Prezime" [(ngModel)]="last_name" name="last_name" required>
+                <mat-error>
+                    Molimo Vas unesite vaše prezime
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+                <mat-error>
+                    Molimo Vas unesite validnu email adresu
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="password" placeholder="Lozinka" [(ngModel)]="password" name="password" required>
+                <mat-error>
+                    Molimo Vas unesite validnu lozinku
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="!registerForm.form.valid">Registruj se</button>
+        </form>
+    </mat-card-content>
+</mat-card>

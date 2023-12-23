@@ -1,3 +1,3 @@
 export const environment = {
-    apiURL: "https://api.mojadvokat.me/"
+    apiURL: "https://api.mojadvokat.me"
 };
