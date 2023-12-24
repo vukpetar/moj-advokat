@@ -34,7 +34,8 @@ def create_question(
     db.add(current_user)
     db.commit()
     db.refresh(db_question)
-    db.refresh(current_user)
+    db.refresh(current_user)    
+
     return db_question
 
 def get_question_item(db: Session, question_id: int):

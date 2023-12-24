@@ -1,5 +1,5 @@
 # build a schema using pydantic
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 from datetime import datetime
 from models.item.schemas import Item
@@ -11,7 +11,7 @@ class Question(QuestionCreate):
     id: int
     user_id: int
     text: str
-    is_public: bool
+    is_public: Optional[bool]
 
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
@@ -24,8 +24,10 @@ class QuestionItems(BaseModel):
     question_id: int
     item_id: int
     distance: Optional[float]
-    question: Question
-    item: Item
+    item: Optional[Item]
 
     class Config:
         orm_mode = True
+
+class QuestionWithItems(Question):
+    question_items: List[QuestionItems]

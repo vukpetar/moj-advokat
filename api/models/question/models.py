@@ -19,7 +19,7 @@ class Question(Base):
     is_public = Column(Boolean, server_default="false")
 
     user = relationship("User")
-    items = relationship("QuestionItems", back_populates='question')
+    question_items = relationship("QuestionItems", back_populates="question")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -31,5 +31,5 @@ class QuestionItems(Base):
     item_id = Column(Integer, ForeignKey('items.id'))
     distance = Column(Float, server_default=None)
 
-    question = relationship("Question")
+    question = relationship("Question", back_populates="question_items")
     item = relationship("Item")
