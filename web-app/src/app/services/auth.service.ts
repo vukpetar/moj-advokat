@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BaseService } from './base.service';
 import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
@@ -26,12 +26,6 @@ export class AuthService extends BaseService<User> implements OnDestroy {
     private storageService: StorageService
   ) {
     super('/users', httpClient);
-    this.refresh_token().subscribe({
-      next: _ => {},
-      error: _ => {
-        this.storageService.removeItem("accessToken");
-      }
-    });
   }
 
   public ngOnDestroy(): void {
