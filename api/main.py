@@ -26,7 +26,7 @@ from database import get_db
 
 load_dotenv('.env')
 app = FastAPI()
-origins = [origin.strip() for origin in os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"].split(",")]
+origins = [origin.strip() for origin in os.environ["ORIGINS"].split(",")]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
