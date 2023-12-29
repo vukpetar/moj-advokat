@@ -1,5 +1,6 @@
 from sqlalchemy import Column, DateTime, Integer, String, Boolean
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from database import Base
 
 class User(Base):
@@ -16,6 +17,8 @@ class User(Base):
     activation_code = Column(String, server_default=None)
     hashed_password = Column(String)
     disabled = Column(Boolean)
+
+    questions = relationship("Question")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

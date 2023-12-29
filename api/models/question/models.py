@@ -18,7 +18,7 @@ class Question(Base):
     text = Column(String)
     is_public = Column(Boolean, server_default="false")
 
-    user = relationship("User")
+    user = relationship("User", back_populates="questions")
     question_items = relationship("QuestionItems", back_populates="question")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -1,6 +1,8 @@
 # build a schema using pydantic
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
+
+from models.question.schemas import Question
 
 class Token(BaseModel):
     access_token: str
@@ -18,6 +20,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     daily_limit: Optional[int]
+    questions: List[Question]
 
     class Config:
         orm_mode = True
