@@ -67,9 +67,9 @@ async def create_question(
     return db_question
 
 @router.get("/", response_model=list[questionSchemas.Question])
-async def read_questions(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def read_questions(skip: int = 0, limit: int = 10, is_public: bool = True, db: Session = Depends(get_db)):
 
-    questions = questionCrud.get_questions(db, skip=skip, limit=limit)
+    questions = questionCrud.get_questions(db, skip=skip, limit=limit, is_public = is_public)
     return questions
 
 @router.get("/{question_id}", response_model=questionSchemas.QuestionWithItems)

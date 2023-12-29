@@ -11,9 +11,11 @@ def get_question(db: Session, question_id: int) -> schemas.Question:
 
     return db.query(models.Question).filter(models.Question.id == question_id).first()
 
-def get_questions(db: Session, skip: int = 0, limit: int = 10):
+def get_questions(db: Session, skip: int = 0, limit: int = 10, is_public: bool = True):
 
-    return db.query(models.Question).offset(skip).limit(limit).all()
+    query = db.query(models.Question).filter_by(is_public=is_public).offset(skip).limit(limit)
+
+    return query.all()
 
 
 def create_question(
